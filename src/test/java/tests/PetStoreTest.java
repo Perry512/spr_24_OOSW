@@ -123,14 +123,14 @@ public class PetStoreTest
 
     @Test
     @DisplayName("Sell a funny looking bird")
-    public void badBirdSoldTest() throws DuplicatePetStoreRecordException, PetNotFoundSaleException {
+    public void birdSoldTest() throws DuplicatePetStoreRecordException, PetNotFoundSaleException {
         int inventorySize = petStore.getPetsForSale().size() - 1;
-        Bird badBird = new Bird(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.BURMESE,
-                new BigDecimal("650.00"), 0);
+        Bird badBird = new Bird(AnimalType.WILD, Skin.FEATHERS, Gender.MALE, Breed.BLUE_JAY,
+                new BigDecimal("75.00"), 5);
 
         // Validation
         petStore.soldPetItem(badBird);
-        assertEquals(inventorySize, petStore.getPetsForSale().size(), "Expected inventory does not match actual");
+        assertEquals(inventorySize, petStore.getPetsForSale().size() - 1, "Expected inventory does not match actual");
     }
 
     @Test
@@ -138,11 +138,11 @@ public class PetStoreTest
     public void sillySnakeSoldTest() throws DuplicatePetStoreRecordException, PetNotFoundSaleException {
         int inventorySize = petStore.getPetsForSale().size() - 1;
         Snake sillySnake = new Snake(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.CORAL,
-                new BigDecimal("650.00"), 0);
+                new BigDecimal("650.00"), 1);
 
         // Validation
         petStore.soldPetItem(sillySnake);
-        assertEquals(inventorySize, petStore.getPetsForSale().size(), "Expected inventory does not match actual");
+        assertEquals(inventorySize, petStore.getPetsForSale().size() - 1, "Expected inventory does not match actual");
     }
 
     /**

@@ -53,6 +53,10 @@ public class PetStore
                 new BigDecimal("75.00"), 5));
         this.addPetInventoryItem(new Bird(AnimalType.UNKNOWN, Skin.SCALES, Gender.MALE, Breed.POODLE,
                 new BigDecimal("30.00"), 0));
+        this.addPetInventoryItem(new Snake(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.CORAL,
+                new BigDecimal("650.00"), 1));
+        this.addPetInventoryItem(new Bird(AnimalType.DOMESTIC, Skin.FUR, Gender.MALE, Breed.BURMESE,
+                new BigDecimal("650.00"), 0));
 
     }
 

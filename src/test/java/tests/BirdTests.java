@@ -99,7 +99,7 @@ public class BirdTests {
 
         actualBird = new Bird(AnimalType.UNKNOWN, Skin.UNKNOWN, Gender.UNKNOWN, Breed.UNKNOWN);
         actualBird.setNumberOfLegs(1);
-        assertEquals(6, actualBird.getNumberOfLegs(), "Was expecting six legs");
+        assertEquals(1, actualBird.getNumberOfLegs(), "Was expecting six legs");
     }
 
 }
