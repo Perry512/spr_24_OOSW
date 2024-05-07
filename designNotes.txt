@@ -1,0 +1,3 @@
+Question 1: Created new method "IsListOfThreeElements" to implement into failed test "Verification Matcher AddAll Find value 3 Test", changed test method to add third element into mock array.
+
+Question 2:
