@@ -1,3 +1,3 @@
 Question 1: Created new method "IsListOfThreeElements" to implement into failed test "Verification Matcher AddAll Find value 3 Test", changed test method to add third element into mock array.
 
-Question 2:
+Question 2: The test has no update method, added an update method that makes a test dog to update mocked dog with 

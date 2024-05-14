@@ -12,8 +12,11 @@ import com.petstore.animals.attributes.Skin;
 import com.petstore.exceptions.DuplicatePetStoreRecordException;
 import com.petstore.exceptions.PetNotFoundSaleException;
 
+import com.petstore.exceptions.PetTypeNotSupportedException;
 import com.petstoreservices.exceptions.PetDataStoreException;
 import com.petstoreservices.exceptions.PetInventoryFileNotCreatedException;
+import com.petstoreservices.exceptions.PetStoreAnimalTypeException;
+import com.petstoreservices.exceptions.UpdatePetException;
 import com.petstoreservices.repository.PetRepository;
 import com.petstoreservices.service.PetInventoryService;
 import org.junit.jupiter.api.*;
@@ -24,6 +27,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.awt.image.DataBuffer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -269,6 +274,62 @@ public class PetStoreServiceTests
         testResultsList.add(petResponseContainer);
         return testResultsList.stream();
     }
+
+    @TestFactory
+    @Order(2)
+    @DisplayName("Update Pet<Dog> from inventory")
+    public Stream<DynamicNode> updatePetItem() throws PetInventoryFileNotCreatedException,
+            DuplicatePetStoreRecordException, PetNotFoundSaleException, PetDataStoreException, PetTypeNotSupportedException, UpdatePetException, PetStoreAnimalTypeException {
+
+        PetEntity updatedPetItem = myPets.stream()
+                .filter(p -> p.getPetType().equals(PetType.DOG) && p.getPetId() == 4)
+                .findFirst()
+                .orElse(null);
+
+        PetEntity testDog = new DogEntity(AnimalType.DOMESTIC, FUR, Gender.MALE, Breed.GOLDEN_DOODLE, new BigDecimal("500.00"), 4);
+
+        // Mock the behavior of petRepository to return the updatedPetItem when finding by ID
+        Mockito.doReturn(updatedPetItem).when(petRepository).findPetByPetTypeAndPetId(PetType.DOG, 4);
+        Mockito.doReturn(updatedPetItem).when(this.petRepository).updatePetEntity(testDog, updatedPetItem);
+
+        //update TestDog
+        testDog.compareAndUpdate(updatedPetItem);
+
+
+        if (updatedPetItem != null) {
+            // If the pet to be updated is found
+            // Execute the service method to update the pet
+            PetEntity updateEntity = petService.updateInventoryByPetIdAndPetType(PetType.DOG, 4, testDog);
+
+            // Verify that the repository's updatePetEntity method was called with the correct parameters
+            verify(petRepository).updatePetEntity(testDog, updatedPetItem);
+
+            // Dynamic tests to check the attributes of the updated pet
+            List<DynamicTest> updatedPetTests = Arrays.asList(
+                    DynamicTest.dynamicTest("Updated pet's animal type",
+                            () -> assertEquals(AnimalType.DOMESTIC, updateEntity.getAnimalType())),
+                    DynamicTest.dynamicTest("Updated pet's breed",
+                            () -> assertEquals(Breed.GREY_HOUND, updateEntity.getBreed())),
+                    DynamicTest.dynamicTest("Updated pet's price",
+                            () -> assertEquals(new BigDecimal("750.00"), updateEntity.getCost()))
+                    // Add more dynamic tests as needed
+            );
+
+            // Create a dynamic container for the updated pet tests
+            DynamicContainer updatedPetContainer = DynamicContainer.dynamicContainer(
+                    "Updated Pet Tests",
+                    updatedPetTests
+            );
+
+            return Stream.of(updatedPetContainer);
+        } else {
+            // Handle the case when the pet to be updated is not found
+            // For example, throw an exception or return an empty stream of dynamic nodes
+            // Here, we'll simply return an empty stream
+            return Stream.empty();
+        }
+    }
+
 
 
 
