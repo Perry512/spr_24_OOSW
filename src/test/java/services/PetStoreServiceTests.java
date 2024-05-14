@@ -323,10 +323,9 @@ public class PetStoreServiceTests
 
             return Stream.of(updatedPetContainer);
         } else {
-            // Handle the case when the pet to be updated is not found
-            // For example, throw an exception or return an empty stream of dynamic nodes
-            // Here, we'll simply return an empty stream
+
             return Stream.empty();
+
         }
     }
 
