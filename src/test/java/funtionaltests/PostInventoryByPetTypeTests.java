@@ -38,6 +38,7 @@ public class PostInventoryByPetTypeTests
         Header contentType = new Header("Content-Type", ContentType.JSON.toString());
         Header accept = new Header("Accept", ContentType.JSON.toString());
         headers = new Headers(contentType, accept);
+
     }
 
     @TestFactory
